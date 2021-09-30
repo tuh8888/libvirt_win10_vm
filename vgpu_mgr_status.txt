@@ -1,0 +1,22 @@
+● nvidia-vgpu-mgr.service - NVIDIA vGPU Manager Daemon
+     Loaded: loaded (/usr/lib/systemd/system/nvidia-vgpu-mgr.service; enabled; vendor preset: disabled)
+     Active: active (running) since Thu 2021-09-30 08:59:54 MDT; 1h 6min ago
+    Process: 575 ExecStart=/opt/vgpu_unlock/vgpu_unlock /usr/bin/nvidia-vgpu-mgr (code=exited, status=0/SUCCESS)
+   Main PID: 621 (vgpu_unlock)
+      Tasks: 11 (limit: 19092)
+     Memory: 22.3M
+        CPU: 2.404s
+     CGroup: /system.slice/nvidia-vgpu-mgr.service
+             ├─621 /bin/python3 /opt/vgpu_unlock/vgpu_unlock -f /usr/bin/nvidia-vgpu-mgr
+             └─675 /usr/bin/nvidia-vgpu-mgr
+
+Sep 30 09:31:30 harrison-desktop-lin nvidia-vgpu-mgr[247982]: notice: vmiop_log: (0x0): Virtual Device Id: 0x1b38:0x11ea
+Sep 30 09:31:30 harrison-desktop-lin nvidia-vgpu-mgr[247982]: notice: vmiop_log: (0x0): FRL Value: 60 FPS
+Sep 30 09:31:30 harrison-desktop-lin nvidia-vgpu-mgr[247982]: notice: vmiop_log: ######## vGPU Manager Information: ########
+Sep 30 09:31:30 harrison-desktop-lin nvidia-vgpu-mgr[247982]: notice: vmiop_log: Driver Version: 460.73.01
+Sep 30 09:31:30 harrison-desktop-lin nvidia-vgpu-mgr[247982]: op_type: 0x2080012F failed, status 0x56.
+Sep 30 09:31:30 harrison-desktop-lin nvidia-vgpu-mgr[247982]: op_type: 0x2080012f failed.
+Sep 30 09:31:30 harrison-desktop-lin nvidia-vgpu-mgr[247982]: notice: vmiop_log: (0x0): Cannot query ECC status. vGPU ECC support will be disabled.
+Sep 30 09:31:30 harrison-desktop-lin nvidia-vgpu-mgr[247982]: notice: vmiop_log: (0x0): Init frame copy engine: syncing...
+Sep 30 09:31:30 harrison-desktop-lin nvidia-vgpu-mgr[247982]: notice: vmiop_log: (0x0): vGPU migration disabled
+Sep 30 09:31:30 harrison-desktop-lin nvidia-vgpu-mgr[247982]: notice: vmiop_log: display_init inst: 0 successful

@@ -1,0 +1,2 @@
+[    4.706671] [drm] [nvidia-drm] [GPU ID 0x00002b00] Loading driver
+[    5.576085] NVRM: GPU at 0000:2b:00.0 has software scheduler DISABLED with policy BEST_EFFORT.
