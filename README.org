@@ -408,6 +408,14 @@ mdevctl define -a -u $UUID2
   <size unit='M'>64</size>
 </shmem>
        #+END_SRC
+
+       Make a file =/etc/tmpfiles.d/10-looking-glass.conf=
+       #+BEGIN_SRC conf
+#Type Path               Mode UID  GID Age Argument
+
+f /dev/shm/looking-glass 0660 user kvm -
+       #+END_SRC
+
 ****** Add MDEV device.
        Where  ~$UUID1~ is the UUID of one of the mdev vGPU's created [[id:62088cb8-6c34-4fa0-9678-23bdc78632b6][earlier]]. The address is composed of the parts of the ~$PCI_ADDRESS~.
        #+BEGIN_SRC xml
@@ -468,6 +476,9 @@ looking-glass-client
        2. Reboot.
        3. In =Nvidia Console= set resolution. My monitor used 2560x1440.
        4. Run [[https://github.com/KrutavShah/vGPU_LicenseBypass/releases/download/v1.0/vGPULicenseBypass.bat][vGPU_LicenseBypass]].
+
+       # TODO Maybe add Windows Autologon instructions https://docs.microsoft.com/en-us/sysinternals/downloads/autologon
+       # TODO Maybe add looking-glass-host start-up instructions
 
 ** My files
    - [[file:win10.xml][Final QEMU Windows 10 VM image]]
