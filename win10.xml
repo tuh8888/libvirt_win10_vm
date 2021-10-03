@@ -90,6 +90,186 @@
             <model name="pcie-pci-bridge"/>
             <address type="pci" domain="0x0000" bus="0x05" slot="0x00" function="0x0"/>
         </controller>
+        <controller type="pci" index="8" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="8" port="0x16"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x02" function="0x6"/>
+        </controller>
+        <controller type="pci" index="9" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="9" port="0x17"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x02" function="0x7"/>
+        </controller>
+        <controller type="pci" index="10" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="10" port="0x18"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x03" function="0x0" multifunction="on"/>
+        </controller>
+        <controller type="pci" index="11" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="11" port="0x19"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x03" function="0x1"/>
+        </controller>
+        <controller type="pci" index="12" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="12" port="0x1a"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x03" function="0x2"/>
+        </controller>
+        <controller type="pci" index="13" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="13" port="0x1b"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x03" function="0x3"/>
+        </controller>
+        <controller type="pci" index="14" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="14" port="0x1c"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x03" function="0x4"/>
+        </controller>
+        <controller type="pci" index="15" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="15" port="0x1d"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x03" function="0x5"/>
+        </controller>
+        <controller type="pci" index="16" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="16" port="0x1e"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x03" function="0x6"/>
+        </controller>
+        <controller type="pci" index="17" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="17" port="0x1f"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x03" function="0x7"/>
+        </controller>
+        <controller type="pci" index="18" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="18" port="0x20"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x04" function="0x0" multifunction="on"/>
+        </controller>
+        <controller type="pci" index="19" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="19" port="0x21"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x04" function="0x1"/>
+        </controller>
+        <controller type="pci" index="20" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="20" port="0x22"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x04" function="0x2"/>
+        </controller>
+        <controller type="pci" index="21" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="21" port="0x23"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x04" function="0x3"/>
+        </controller>
+        <controller type="pci" index="22" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="22" port="0x24"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x04" function="0x4"/>
+        </controller>
+        <controller type="pci" index="23" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="23" port="0x25"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x04" function="0x5"/>
+        </controller>
+        <controller type="pci" index="24" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="24" port="0x26"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x04" function="0x6"/>
+        </controller>
+        <controller type="pci" index="25" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="25" port="0x27"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x04" function="0x7"/>
+        </controller>
+        <controller type="pci" index="26" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="26" port="0x28"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x05" function="0x0" multifunction="on"/>
+        </controller>
+        <controller type="pci" index="27" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="27" port="0x29"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x05" function="0x1"/>
+        </controller>
+        <controller type="pci" index="28" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="28" port="0x2a"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x05" function="0x2"/>
+        </controller>
+        <controller type="pci" index="29" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="29" port="0x2b"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x05" function="0x3"/>
+        </controller>
+        <controller type="pci" index="30" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="30" port="0x2c"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x05" function="0x4"/>
+        </controller>
+        <controller type="pci" index="31" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="31" port="0x2d"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x05" function="0x5"/>
+        </controller>
+        <controller type="pci" index="32" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="32" port="0x2e"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x05" function="0x6"/>
+        </controller>
+        <controller type="pci" index="33" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="33" port="0x2f"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x05" function="0x7"/>
+        </controller>
+        <controller type="pci" index="34" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="34" port="0x30"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x06" function="0x0" multifunction="on"/>
+        </controller>
+        <controller type="pci" index="35" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="35" port="0x31"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x06" function="0x1"/>
+        </controller>
+        <controller type="pci" index="36" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="36" port="0x32"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x06" function="0x2"/>
+        </controller>
+        <controller type="pci" index="37" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="37" port="0x33"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x06" function="0x3"/>
+        </controller>
+        <controller type="pci" index="38" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="38" port="0x34"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x06" function="0x4"/>
+        </controller>
+        <controller type="pci" index="39" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="39" port="0x35"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x06" function="0x5"/>
+        </controller>
+        <controller type="pci" index="40" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="40" port="0x36"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x06" function="0x6"/>
+        </controller>
+        <controller type="pci" index="41" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="41" port="0x37"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x06" function="0x7"/>
+        </controller>
+        <controller type="pci" index="42" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="42" port="0x38"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x07" function="0x0" multifunction="on"/>
+        </controller>
+        <controller type="pci" index="43" model="pcie-root-port">
+            <model name="pcie-root-port"/>
+            <target chassis="43" port="0x39"/>
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x07" function="0x1"/>
+        </controller>
         <controller type="virtio-serial" index="0">
             <address type="pci" domain="0x0000" bus="0x03" slot="0x00" function="0x0"/>
         </controller>
@@ -125,6 +305,12 @@
             <model type="qxl" ram="65536" vram="65536" vgamem="16384" heads="1" primary="yes"/>
             <address type="pci" domain="0x0000" bus="0x00" slot="0x01" function="0x0"/>
         </video>
+        <hostdev mode="subsystem" type="mdev" managed="no" model="vfio-pci" display="on">
+            <source>
+            <address uuid="32e17d6f-ca09-427d-b378-9632a137f4c6"/>
+      </source>
+      <address type="pci" domain="0x0000" bus="0x2b" slot="0x00" function="0x0"/>
+        </hostdev>
         <redirdev bus="usb" type="spicevmc">
             <address type="usb" bus="0" port="2"/>
         </redirdev>
@@ -136,7 +322,7 @@
         </memballoon>
         <shmem name="looking-glass">
             <model type="ivshmem-plain"/>
-            <size unit="M">32</size>
+            <size unit="M">64</size>
             <address type="pci" domain="0x0000" bus="0x07" slot="0x01" function="0x0"/>
         </shmem>
     </devices>

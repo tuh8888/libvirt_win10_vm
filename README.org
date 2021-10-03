@@ -1,0 +1,480 @@
+* Virtual Machine with vGPU Unlock for single GPU desktop
+  This document catalogs my working setup for configuring an Arch Linux host OS to run a Windows 10 VM while passing through a virtualized GPU.
+
+** Sources
+   The resources I used during my own install. This document is a compilation of the instructions and files provided by these people.
+
+*** Guides
+    [[https://docs.google.com/document/d/1pzrWJ9h-zANCtyqRgS7Vzla0Y8Ea2-5z2HEi4X75d2Q][vGPU Wiki]]
+    [[https://wiki.archlinux.org/title/PCI_passthrough_via_OVMF][PCI passthrough via OVMF]]
+    [[https://wvthoog.nl/proxmox-7-vgpu/][Proxmox 7 vGPU]] by wvthoog
+    [[https://www.youtube.com/watch?v=cPrOoeMxzu0][vGPU YouTube guide]] by Craft Computing
+    [[https://looking-glass.io/docs/stable/install/][Looking Glass]]
+    [[https://www.youtube.com/watch?v=wEhvQEyiOwI][Looking Glass YouTube guide]] by Pavol Elsig
+
+*** Sources
+    [[https://github.com/DualCoder/vgpu_unlock][vGPU unlock scripts]] by DualCoder
+    [[https://github.com/KrutavShah/vGPU_LicenseBypass][vGPU_LicenseBypass]] by KrutavShah
+    [[https://github.com/rupansh/vgpu_unlock_5.12][vGPU unlock patch for kernel 5.12]] by rupansh
+
+** Configuration
+   The what and how. Mostly described in suggested installation order unless otherwise stated.
+*** Host
+**** Operating system
+     Configuration of the host OS for virtualization using KVM and device passthrough using OVMF, IOMMU, and VFIO.
+
+***** Arch Linux
+
+***** Kernel 5.12.15-arch1-1
+
+***** Kernel modules
+      - vfio
+      - vfio_iommu_type1
+      - vfio_pci
+      - vfio_virqfd
+****** How to add
+       1. Edit [[file:/etc/mkinitcpio.conf]]
+       2. Add `MODULES=(... vfio vfio_iommu_type1 vfio_pci vfio_virqfd ...)` to the MODULES line.
+       3. Add `HOOKS=(... modconf ...)` to the HOOKS line.
+       4. Update `update-initramfs -P`
+
+***** Boot parameters
+      - amd_iommmu=on
+      - iommu=pt
+      - vfio_iommu_type1.allow_unsafe_interrupts=1
+      - kvm.ignore_msrs=1
+      - blacklist=nouveau
+****** How to add
+       1. edit [[file:/etc/default/grub]]
+       2. Add `GRUB_CMDLINE_LINUX_DEFAULT="amd_iommu=on iommu=pt vfio_iommu_type1.allow_unsafe_interrupts=1 kvm.ignore_msrs=1 blacklist=nouveau ..."` to GRUB_CMDLINE_LINUX_DEFAULT.
+       3. Update GRUB `updat-grub`
+
+**** Hardware
+     The physical devices present on my system.
+
+     - CPU: AMD Ryzen 7 5800X (16) @ 3.800GHz
+     - GPU: NVIDIA GeForce GTX 1060 6GB
+     - Memory: 16MiB
+     - 1440p Monitor
+
+**** Software
+     What needs to be installed.
+
+***** Arch Packages
+      :PROPERTIES:
+      :ID:       94df3230-029b-42c2-a7bc-db75af7fb82a
+      :END:
+      Packages installed using =pacman=.
+
+****** linux
+       The OS kernel.
+******* Version: 5.12.15
+******* How to install
+******** First option
+         1. Install `downgrade` from AUR (using `yay` or other AUR helper)
+         2. `downgrade linux`
+         3. Select 5.12.15
+******** From Arch archive
+         1. Download package `curl -O https://archive.archlinux.org/packages/l/linux/linux-5.12.15.arch1-1-x86_64.pkg.tar.zst`
+         2. Install with `pacman -U linux-5.12.15.arch1-1-x86_64.pkg.tar.zst`
+
+****** linux-headers
+       Needed to build kernel modules, particularly the Nvidia driver.
+******* Version: 5.12.15
+******* How to install
+******** First option
+         1. Install `downgrade` from AUR (using `yay` or other AUR helper)
+         2. `downgrade linux-headers`
+         3. Select 5.12.15
+******** From Arch archive
+         1. Download package `curl -O https://archive.archlinux.org/packages/l/linux-headers/linux-headers-5.12.15.arch1-1-x86_64.pkg.tar.zst`
+         2. Install with `pacman -U linux-headers-5.12.15.arch1-1-x86_64.pkg.tar.zst`
+
+****** virt-manager
+       Used to create and run virtual machines.
+
+****** libvirt
+
+****** kvm
+       (Kernel-based Virtual Machine). A hypervisor. Used for virtualization.
+
+****** qemu
+
+****** looking-glass
+       Used to view VM in graphical display.
+
+****** iptables-nft
+       For networking with the VM.
+
+****** edk2-ovmf
+
+****** dnsmasq
+       Used for VM networking.
+
+****** mdevctl
+       Used to create vGPU devices
+
+
+***** Python packages
+      :PROPERTIES:
+      :ID:       a7fa4275-7f2e-457b-ab7b-00af5a52de36
+      :END:
+      Installed with =pip=.
+****** frida
+******* How to install
+******** If using conda
+         1. Install `python-pip` using pacman.
+         2. Run `/bin/pip install frida`
+******** Otherwise
+         1. `pip install frida`
+
+***** Graphics setup
+
+****** Nvidia Driver
+******* Version: 460.73.01 merged and pre-unlocked
+        This driver is a merged version of Nvidia's vGPU driver and their standard driver. It allows for the host graphics to be displayed while the vGPU's are active.
+******* Components
+        :PROPERTIES:
+        :ID:       52f0c050-0f82-48af-bd19-bd5c613a29b3
+        :END:
+        1. [[https://drive.google.com/file/d/1dCyUteA2MqJaemRKqqTu5oed5mINu9Bw/view?usp=sharing][merged driver]]
+        2. [[https://github.com/DualCoder/vgpu_unlock][vgpu_unlock]]
+        3. [[https://raw.githubusercontent.com/rupansh/vgpu_unlock_5.12/master/twelve.patch][vgpu_unlock_5.12 patch]]
+
+******* How to install
+******** Make sure all above [[id:94df3230-029b-42c2-a7bc-db75af7fb82a][arch packages]] and [[id:a7fa4275-7f2e-457b-ab7b-00af5a52de36][python packages]]  are installed.
+******** Download the[[id:52f0c050-0f82-48af-bd19-bd5c613a29b3][components]] using `curl -O the_link`
+******** Make the driver executable. `chmod +x NVIDIA-Linux-x86_64-640.73.01-grid-vgpu-kvm-v5.run`
+******** Extract it. `./NVIDIA-Linux-x86_64-640.73.01-grid-vgpu-kvm-v5.run -x`
+******** `cd NVIDIA-Linux-x86_64-640.73.01-grid-vgpu-kvm-v5`
+******** Apply the 5.12 patch `patch -p0 < ../twelve.patch`
+******** Disable graphics `sudo systemctl isolate multi-user.target`
+******** Re-login as root and navigate back to the driver directory
+         #+BEGIN_SRC bash
+cd /home/user/Downloads/NVIDIA-Linux-x86_64-460.73.01-grid-vgpu-kvm-v5
+         #+END_SRC
+******** Install the driver
+         #+BEGIN_SRC bash
+./nvidia-installer --dkms
+         #+END_SRC
+******** Add ~vgpu_unlock~ to service files.
+         #+BEGIN_SRC bash
+nano /lib/systemd/system/nvidia-vgpud.service
+         #+end_src
+
+         Replace ExecStart with:
+         #+BEGIN_SRC systemd
+ExecStart=/root/vgpu_unlock/vgpu_unlock /usr/bin/nvidia-vgpud
+         #+END_SRC
+
+         #+begin_src bash
+nano /lib/systemd/system/nvidia-vgpu-mgr.service
+         #+end_src
+
+         Replace ExecStart with:
+         #+BEGIN_SRC systemd
+ExecStart=/root/vgpu_unlock/vgpu_unlock /usr/bin/nvidia-vgpu-mgr
+         #+END_SRC
+
+         #+begin_src bash
+
+systemctl daemon-reload
+         #+end_src
+******** Add ~vgpu_unlock~ to source files.
+         #+BEGIN_SRC bash
+nano /usr/src/nvidia-460.73.01/nvidia/os-interface.c
+         #+END_SRC
+
+         Under #include “nv-time.h” insert this line
+         #+BEGIN_SRC cpp
+#include "/root/vgpu_unlock/vgpu_unlock_hooks.c"
+         #+END_SRC
+         #+BEGIN_SRC bash
+nano /usr/src/nvidia-460.73.01/nvidia/nvidia.Kbuild
+         #+END_SRC
+
+         Add this to the bottom of the file.
+         #+BEGIN_SRC
+ldflags-y += -T /root/vgpu_unlock/kern.ld
+         #+END_SRC
+******** Remove and reinstall the Nvidia dkms module
+         #+BEGIN_SRC bash
+dkms remove -m nvidia -v 460.73.01 --all
+dkms install -m nvidia -v 460.73.01
+         #+END_SRC
+******** Make all of vgpu_unlock executable `chmod -R +x vgpu_unlock`
+******** Reboot
+
+****** vGPU Profiles
+       - nvidia-48 GRID P40-3Q
+
+******* How to install
+
+******** Choose profile
+         :PROPERTIES:
+         :ID:       492ad298-5b52-4cb4-913c-a444940d9492
+         :END:
+         #+BEGIN_SRC bash :results verbatim
+mdevctl types
+         #+END_SRC
+
+         #+RESULTS:
+         #+begin_example
+         0000:2b:00.0
+           nvidia-156
+             Available instances: 0
+             Device API: vfio-pci
+             Name: GRID P40-2B
+             Description: num_heads=4, frl_config=45, framebuffer=2048M, max_resolution=5120x2880, max_instance=12
+           nvidia-215
+             Available instances: 0
+             Device API: vfio-pci
+             Name: GRID P40-2B4
+             Description: num_heads=4, frl_config=45, framebuffer=2048M, max_resolution=5120x2880, max_instance=12
+           nvidia-241
+             Available instances: 0
+             Device API: vfio-pci
+             Name: GRID P40-1B4
+             Description: num_heads=4, frl_config=45, framebuffer=1024M, max_resolution=5120x2880, max_instance=24
+           nvidia-283
+             Available instances: 0
+             Device API: vfio-pci
+             Name: GRID P40-4C
+             Description: num_heads=1, frl_config=60, framebuffer=4096M, max_resolution=4096x2160, max_instance=6
+           nvidia-284
+             Available instances: 0
+             Device API: vfio-pci
+             Name: GRID P40-6C
+             Description: num_heads=1, frl_config=60, framebuffer=6144M, max_resolution=4096x2160, max_instance=4
+           nvidia-285
+             Available instances: 0
+             Device API: vfio-pci
+             Name: GRID P40-8C
+             Description: num_heads=1, frl_config=60, framebuffer=8192M, max_resolution=4096x2160, max_instance=3
+           nvidia-286
+             Available instances: 0
+             Device API: vfio-pci
+             Name: GRID P40-12C
+             Description: num_heads=1, frl_config=60, framebuffer=12288M, max_resolution=4096x2160, max_instance=2
+           nvidia-287
+             Available instances: 0
+             Device API: vfio-pci
+             Name: GRID P40-24C
+             Description: num_heads=1, frl_config=60, framebuffer=24576M, max_resolution=4096x2160, max_instance=1
+           nvidia-46
+             Available instances: 0
+             Device API: vfio-pci
+             Name: GRID P40-1Q
+             Description: num_heads=4, frl_config=60, framebuffer=1024M, max_resolution=5120x2880, max_instance=24
+           nvidia-47
+             Available instances: 0
+             Device API: vfio-pci
+             Name: GRID P40-2Q
+             Description: num_heads=4, frl_config=60, framebuffer=2048M, max_resolution=7680x4320, max_instance=12
+           nvidia-48
+             Available instances: 6
+             Device API: vfio-pci
+             Name: GRID P40-3Q
+             Description: num_heads=4, frl_config=60, framebuffer=3072M, max_resolution=7680x4320, max_instance=8
+           nvidia-49
+             Available instances: 0
+             Device API: vfio-pci
+             Name: GRID P40-4Q
+             Description: num_heads=4, frl_config=60, framebuffer=4096M, max_resolution=7680x4320, max_instance=6
+           nvidia-50
+             Available instances: 0
+             Device API: vfio-pci
+             Name: GRID P40-6Q
+             Description: num_heads=4, frl_config=60, framebuffer=6144M, max_resolution=7680x4320, max_instance=4
+           nvidia-51
+             Available instances: 0
+             Device API: vfio-pci
+             Name: GRID P40-8Q
+             Description: num_heads=4, frl_config=60, framebuffer=8192M, max_resolution=7680x4320, max_instance=3
+           nvidia-52
+             Available instances: 0
+             Device API: vfio-pci
+             Name: GRID P40-12Q
+             Description: num_heads=4, frl_config=60, framebuffer=12288M, max_resolution=7680x4320, max_instance=2
+           nvidia-53
+             Available instances: 0
+             Device API: vfio-pci
+             Name: GRID P40-24Q
+             Description: num_heads=4, frl_config=60, framebuffer=24576M, max_resolution=7680x4320, max_instance=1
+           nvidia-54
+             Available instances: 0
+             Device API: vfio-pci
+             Name: GRID P40-1A
+             Description: num_heads=1, frl_config=60, framebuffer=1024M, max_resolution=1280x1024, max_instance=24
+           nvidia-55
+             Available instances: 0
+             Device API: vfio-pci
+             Name: GRID P40-2A
+             Description: num_heads=1, frl_config=60, framebuffer=2048M, max_resolution=1280x1024, max_instance=12
+           nvidia-56
+             Available instances: 0
+             Device API: vfio-pci
+             Name: GRID P40-3A
+             Description: num_heads=1, frl_config=60, framebuffer=3072M, max_resolution=1280x1024, max_instance=8
+           nvidia-57
+             Available instances: 0
+             Device API: vfio-pci
+             Name: GRID P40-4A
+             Description: num_heads=1, frl_config=60, framebuffer=4096M, max_resolution=1280x1024, max_instance=6
+           nvidia-58
+             Available instances: 0
+             Device API: vfio-pci
+             Name: GRID P40-6A
+             Description: num_heads=1, frl_config=60, framebuffer=6144M, max_resolution=1280x1024, max_instance=4
+           nvidia-59
+             Available instances: 0
+             Device API: vfio-pci
+             Name: GRID P40-8A
+             Description: num_heads=1, frl_config=60, framebuffer=8192M, max_resolution=1280x1024, max_instance=3
+           nvidia-60
+             Available instances: 0
+             Device API: vfio-pci
+             Name: GRID P40-12A
+             Description: num_heads=1, frl_config=60, framebuffer=12288M, max_resolution=1280x1024, max_instance=2
+           nvidia-61
+             Available instances: 0
+             Device API: vfio-pci
+             Name: GRID P40-24A
+             Description: num_heads=1, frl_config=60, framebuffer=24576M, max_resolution=1280x1024, max_instance=1
+           nvidia-62
+             Available instances: 0
+             Device API: vfio-pci
+             Name: GRID P40-1B
+             Description: num_heads=4, frl_config=45, framebuffer=1024M, max_resolution=5120x2880, max_instance=24
+
+         #+end_example
+
+         I chose nvidia-47 (GRID P40-3Q) because it has 3Q at the end of its name. This means I can have two 3GB vGPU's running.
+
+******** Determine GPU PCI address
+         #+BEGIN_SRC bash :results verbatim
+lspci | grep VGA
+PCI_ADDRESS=$(lspci | grep VGA | grep -Po '\d\w:\d\d.\d')
+echo $PCI_ADDRESS
+         #+END_SRC
+
+         #+RESULTS:
+         : 2b:00.0 VGA compatible controller: NVIDIA Corporation GP106 [GeForce GTX 1060 6GB] (rev a1)
+         : 2b:00.0
+
+******** Generate UUIDs for each vGPU
+         #+BEGIN_SRC bash
+UUID1=$(uuidgen)
+UUID2=$(uuidgen)
+echo $UUID1 $UUID2
+         #+END_SRC
+
+         #+RESULTS:
+         : 2e82a1ad-3c7a-4b79-869f-3637b6b299a7 7a9c2eda-fa37-49f7-bb97-069c679b6eef
+
+******** Create vGPUs
+         :PROPERTIES:
+         :ID:       62088cb8-6c34-4fa0-9678-23bdc78632b6
+         :END:
+         #+BEGIN_SRC bash
+mdevctl start -u $UUID1 -p 0000:$PCI_ADDRESS -t nvidia-48
+mdevctl start -u $UUID2 -p 0000:$PCI_ADDRESS -t nvidia-48
+
+mdevctl define -a -u $UUID1
+mdevctl define -a -u $UUID2
+         #+END_SRC
+
+**** VM Image
+     The virtual machine configuration.
+
+     - Chipset: Q35
+     - Firmware: UEFI x86_64: /usr/share/edk2-ovmf/x64/OVMF_CODE.fd
+     - Hypervisor KVM
+     - Spice Server
+     - Video QXL
+     - MDEV
+     - shmem looking-glass
+
+***** How to install
+****** In virt-manager, create virtual machine.
+****** Apply above settings minus "MDEV" and "shmem looking-glass".
+****** Start VM and install OS.
+****** Shutdown guest.
+****** Add looking-glass shmem device.
+       The size is determined like [[https://looking-glass.io/docs/stable/install/#client-determining-memory][this]].
+       #+BEGIN_SRC xml
+<shmem name='looking-glass'>
+  <model type='ivshmem-plain'/>
+  <size unit='M'>64</size>
+</shmem>
+       #+END_SRC
+****** Add MDEV device.
+       Where  ~$UUID1~ is the UUID of one of the mdev vGPU's created [[id:62088cb8-6c34-4fa0-9678-23bdc78632b6][earlier]]. The address is composed of the parts of the ~$PCI_ADDRESS~.
+       #+BEGIN_SRC xml
+<hostdev mode="subsystem" type="mdev" managed="no" model="vfio-pci" display="on">
+  <source>
+    <address uuid="$UUID1"/>
+  </source>
+  <address type="pci" domain="0x0000" bus="0x2b" slot="0x00" function="0x0"/>
+</hostdev>
+       #+END_SRC
+****** Install [[id:ae17e44e-f00c-4995-a017-8dcd919c8f0f][all guest software]].
+****** Shutdown guest.
+****** Either set =Video= model to "none" or install [[id:e152ccec-fd25-4c23-befd-feb84becdf70][guest Nvidia driver]]​.
+
+***** How to run
+      1. Start VM. (May need to click run several times if error related to "vfio-<bus>" occurs.
+      2. Run looking-glass client
+         #+BEGIN_SRC bash
+export SDL_VIDEO_X11_VISUALID=
+looking-glass-client
+         #+END_SRC
+
+*** Guest
+    Inside the VM.
+
+**** Operating system
+     - Windows 10
+
+**** To download (within guest)
+     :PROPERTIES:
+     :ID:       6d9a90c9-e736-4d73-8447-a4e7db5c5bde
+     :END:
+     - [[https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.208-1/virtio-win-guest-tools.exe][virtio guest tools]]
+     - [[https://www.spice-space.org/download/windows/spice-guest-tools/spice-guest-tools-latest.exe][spice guest tools]]
+     - [[https://looking-glass.io/ci/host/download?id=stable][looking glass host]]
+     - [[https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/upstream-virtio/virtio-win10-prewhql-0.1-161.zip][virtio PCI RAM controller driver]]
+     - [[https://storage.googleapis.com/nvidia-drivers-us-public/GRID/GRID12.2/462.31_grid_win10_server2016_server2019_64bit_international.exe][Nvidia GRID driver]]
+     - [[https://github.com/KrutavShah/vGPU_LicenseBypass/releases/download/v1.0/vGPULicenseBypass.bat][vGPU_LicenseBypass]]
+
+**** Software
+     :PROPERTIES:
+     :ID:       ae17e44e-f00c-4995-a017-8dcd919c8f0f
+     :END:
+***** Looking Glass Host
+****** How to install
+       1. Download [[id:6d9a90c9-e736-4d73-8447-a4e7db5c5bde][components]].
+       2. Update driver in =Device Manager->System Devicess->PCI standard RAM Controller= to [[https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/upstream-virtio/virtio-win10-prewhql-0.1-161.zip][virtio PCI RAM controller driver]].
+       3. Install [[https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.208-1/virtio-win-guest-tools.exe][virtio guest tools]] and [[https://www.spice-space.org/download/windows/spice-guest-tools/spice-guest-tools-latest.exe][spice guest tools]].
+       4. Install [[https://looking-glass.io/ci/host/download?id=stable][looking glass host]] by running =looking-glass-host-setup.exe= as administrator.
+       5. Reboot VM.
+
+***** [[https://storage.googleapis.com/nvidia-drivers-us-public/GRID/GRID12.2/462.31_grid_win10_server2016_server2019_64bit_international.exe][Nvidia GRID driver]]
+      :PROPERTIES:
+      :ID:       e152ccec-fd25-4c23-befd-feb84becdf70
+      :END:
+****** How to install
+       1. Run [[https://storage.googleapis.com/nvidia-drivers-us-public/GRID/GRID12.2/462.31_grid_win10_server2016_server2019_64bit_international.exe][Nvidia GRID driver]] installer.
+       2. Reboot.
+       3. In =Nvidia Console= set resolution. My monitor used 2560x1440.
+       4. Run [[https://github.com/KrutavShah/vGPU_LicenseBypass/releases/download/v1.0/vGPULicenseBypass.bat][vGPU_LicenseBypass]].
+
+** My files
+   - [[file:win10.xml][Final QEMU Windows 10 VM image]]
+   - [[file:mdev.sh][mdev device creation script]]
+
+** Suggestions
+   Since there is a lot of messing with the kernel and graphics drivers, it's important to have a plan for recovering your host OS.
+
+   - Use timeshift or other auto-snapshotting of the host.
+   - Have a recovery drive available.
