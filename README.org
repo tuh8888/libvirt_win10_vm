@@ -5,12 +5,12 @@
    The resources I used during my own install. This document is a compilation of the instructions and files provided by these people.
 
 *** Guides
-    [[https://docs.google.com/document/d/1pzrWJ9h-zANCtyqRgS7Vzla0Y8Ea2-5z2HEi4X75d2Q][vGPU Wiki]]
-    [[https://wiki.archlinux.org/title/PCI_passthrough_via_OVMF][PCI passthrough via OVMF]]
-    [[https://wvthoog.nl/proxmox-7-vgpu/][Proxmox 7 vGPU]] by wvthoog
-    [[https://www.youtube.com/watch?v=cPrOoeMxzu0][vGPU YouTube guide]] by Craft Computing
-    [[https://looking-glass.io/docs/stable/install/][Looking Glass]]
-    [[https://www.youtube.com/watch?v=wEhvQEyiOwI][Looking Glass YouTube guide]] by Pavol Elsig
+    - [[https://docs.google.com/document/d/1pzrWJ9h-zANCtyqRgS7Vzla0Y8Ea2-5z2HEi4X75d2Q][vGPU Wiki]]
+    - [[https://wiki.archlinux.org/title/PCI_passthrough_via_OVMF][PCI passthrough via OVMF]]
+    - [[https://wvthoog.nl/proxmox-7-vgpu/][Proxmox 7 vGPU]] by wvthoog
+    - [[https://www.youtube.com/watch?v=cPrOoeMxzu0][vGPU YouTube guide]] by Craft Computing
+    - [[https://looking-glass.io/docs/stable/install/][Looking Glass]]
+    - [[https://www.youtube.com/watch?v=wEhvQEyiOwI][Looking Glass YouTube guide]] by Pavol Elsig
 
 *** Sources
     [[https://github.com/DualCoder/vgpu_unlock][vGPU unlock scripts]] by DualCoder
