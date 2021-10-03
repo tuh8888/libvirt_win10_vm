@@ -5,7 +5,7 @@
      or other application using the libvirt API.
 -->
 
-<domain type='kvm'>
+<domain type='kvm' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>
     <name>win10-q35</name>
     <uuid>d72673e0-779f-41bc-a622-b463e880176d</uuid>
     <metadata>
