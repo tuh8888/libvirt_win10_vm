@@ -114,6 +114,31 @@
 ****** mdevctl
        Used to create vGPU devices
 
+****** scream
+       Used to read audio stream from network.
+
+******* How to setup
+        1. Install using package manager.
+        2. Create [[https://github.com/duncanthrax/scream/issues/155#issuecomment-924401541][systemd-file]]
+          #+BEGIN_SRC systemd
+[Unit]
+Description=Scream network audio client
+
+[Unit]
+Description=Scream Receiver
+After=pulseaudio.service network-online.target
+Wants=pulseaudio.service
+
+[Service]
+Type=simple
+ExecStartPre=/bin/sleep 3
+ExecStart=scream -i virbr0
+Restart=always
+RestartSec=1
+
+[Install]
+WantedBy=default.target
+          #+END_SRC
 
 ***** Python packages
       :PROPERTIES:
@@ -454,6 +479,7 @@ looking-glass-client
      - [[https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/upstream-virtio/virtio-win10-prewhql-0.1-161.zip][virtio PCI RAM controller driver]]
      - [[https://storage.googleapis.com/nvidia-drivers-us-public/GRID/GRID12.2/462.31_grid_win10_server2016_server2019_64bit_international.exe][Nvidia GRID driver]]
      - [[https://github.com/KrutavShah/vGPU_LicenseBypass/releases/download/v1.0/vGPULicenseBypass.bat][vGPU_LicenseBypass]]
+     - [[https://github.com/duncanthrax/scream][Scream audio driver]]
 
 **** Software
      :PROPERTIES:
@@ -479,6 +505,12 @@ looking-glass-client
 
        # TODO Maybe add Windows Autologon instructions https://docs.microsoft.com/en-us/sysinternals/downloads/autologon
        # TODO Maybe add looking-glass-host start-up instructions
+
+***** [[https://github.com/duncanthrax/scream/releases/download/3.8/Scream3.8.zip][Scream audio driver]]
+
+****** How to install
+       1. Install driver.
+       2. Change sound source to Scream (WDM).
 
 ** My files
    - [[file:win10.xml][Final QEMU Windows 10 VM image]]
