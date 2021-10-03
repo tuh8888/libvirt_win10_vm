@@ -13,9 +13,9 @@
     - [[https://www.youtube.com/watch?v=wEhvQEyiOwI][Looking Glass YouTube guide]] by Pavol Elsig
 
 *** Sources
-    [[https://github.com/DualCoder/vgpu_unlock][vGPU unlock scripts]] by DualCoder
-    [[https://github.com/KrutavShah/vGPU_LicenseBypass][vGPU_LicenseBypass]] by KrutavShah
-    [[https://github.com/rupansh/vgpu_unlock_5.12][vGPU unlock patch for kernel 5.12]] by rupansh
+    - [[https://github.com/DualCoder/vgpu_unlock][vGPU unlock scripts]] by DualCoder
+    - [[https://github.com/KrutavShah/vGPU_LicenseBypass][vGPU_LicenseBypass]] by KrutavShah
+    - [[https://github.com/rupansh/vgpu_unlock_5.12][vGPU unlock patch for kernel 5.12]] by rupansh
 
 ** Configuration
    The what and how. Mostly described in suggested installation order unless otherwise stated.
