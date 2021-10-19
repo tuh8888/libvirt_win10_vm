@@ -36,7 +36,7 @@
        1. Edit [[file:/etc/mkinitcpio.conf]]
        2. Add `MODULES=(... vfio vfio_iommu_type1 vfio_pci vfio_virqfd ...)` to the MODULES line.
        3. Add `HOOKS=(... modconf ...)` to the HOOKS line.
-       4. Update `update-initramfs -P`
+       4. Update `update-initramfs -P` (use `mkinitpico -P` for manjaro)
 
 ***** Boot parameters
       - amd_iommmu=on
@@ -47,7 +47,7 @@
 ****** How to add
        1. edit [[file:/etc/default/grub]]
        2. Add `GRUB_CMDLINE_LINUX_DEFAULT="amd_iommu=on iommu=pt vfio_iommu_type1.allow_unsafe_interrupts=1 kvm.ignore_msrs=1 blacklist=nouveau ..."` to GRUB_CMDLINE_LINUX_DEFAULT.
-       3. Update GRUB `updat-grub`
+       3. Update GRUB `update-grub`
 
 **** Hardware
      The physical devices present on my system.
