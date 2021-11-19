@@ -440,6 +440,7 @@ mdevctl define -a -u $UUID2
 
 f /dev/shm/looking-glass 0660 user kvm -
        #+END_SRC
+****** Remove tablet device
 
 ****** Add MDEV device.
        Where  ~$UUID1~ is the UUID of one of the mdev vGPU's created [[id:62088cb8-6c34-4fa0-9678-23bdc78632b6][earlier]]. The address is composed of the parts of the ~$PCI_ADDRESS~.
