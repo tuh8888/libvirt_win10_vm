@@ -46,7 +46,10 @@
       - blacklist=nouveau
 ****** How to add
        1. edit [[file:/etc/default/grub]]
-       2. Add ~GRUB_CMDLINE_LINUX_DEFAULT="amd_iommu=on iommu=pt vfio_iommu_type1.allow_unsafe_interrupts=1 kvm.ignore_msrs=1 blacklist=nouveau ..."~ to GRUB_CMDLINE_LINUX_DEFAULT.
+       2. Add to GRUB_CMDLINE_LINUX_DEFAULT:
+       #+begin_src
+       GRUB_CMDLINE_LINUX_DEFAULT="amd_iommu=on iommu=pt vfio_iommu_type1.allow_unsafe_interrupts=1 kvm.ignore_msrs=1 blacklist=nouveau ..."
+       #+end_src 
        3. Update GRUB ~update-grub~
 
 **** Hardware
