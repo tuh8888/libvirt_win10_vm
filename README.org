@@ -442,13 +442,12 @@ f /dev/shm/looking-glass 0660 user kvm -
        #+END_SRC
 
 ****** Add MDEV device.
-       Where  ~$UUID1~ is the UUID of one of the mdev vGPU's created [[id:62088cb8-6c34-4fa0-9678-23bdc78632b6][earlier]]. The address is composed of the parts of the ~$PCI_ADDRESS~.
+       Where  ~$UUID1~ is the UUID of one of the mdev vGPU's created [[id:62088cb8-6c34-4fa0-9678-23bdc78632b6][earlier]].
        #+BEGIN_SRC xml
 <hostdev mode="subsystem" type="mdev" managed="no" model="vfio-pci" display="on">
   <source>
     <address uuid="$UUID1"/>
   </source>
-  <address type="pci" domain="0x0000" bus="0x2b" slot="0x00" function="0x0"/>
 </hostdev>
        #+END_SRC
 ****** Install [[id:ae17e44e-f00c-4995-a017-8dcd919c8f0f][all guest software]].
