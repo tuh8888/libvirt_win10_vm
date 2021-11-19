@@ -522,3 +522,10 @@ looking-glass-client
 
    - Use timeshift or other auto-snapshotting of the host.
    - Have a recovery drive available.
+
+** Maintenance
+
+*** Preventing accidental upgrades
+  In order to avoid accidentally upgrading these carefully chosen package versions, make sure to ignore updates to them:
+
+  ~IgnorePkg = linux linux-headers nvidia-dkms nvidia nvidia-utils nvidia-settings opencl-nvidia libxnvctrl~
