@@ -34,9 +34,9 @@
       - vfio_virqfd
 ****** How to add
        1. Edit [[file:/etc/mkinitcpio.conf]]
-       2. Add `MODULES=(... vfio vfio_iommu_type1 vfio_pci vfio_virqfd ...)` to the MODULES line.
-       3. Add `HOOKS=(... modconf ...)` to the HOOKS line.
-       4. Update `update-initramfs -P` (use `mkinitpico -P` for manjaro)
+       2. Add ~MODULES=(... vfio vfio_iommu_type1 vfio_pci vfio_virqfd ...)~ to the MODULES line.
+       3. Add ~HOOKS=(... modconf ...)~ to the HOOKS line.
+       4. Update ~update-initramfs -P~ (use ~mkinitpico -P~ for manjaro)
 
 ***** Boot parameters
       - amd_iommmu=on
@@ -46,8 +46,8 @@
       - blacklist=nouveau
 ****** How to add
        1. edit [[file:/etc/default/grub]]
-       2. Add `GRUB_CMDLINE_LINUX_DEFAULT="amd_iommu=on iommu=pt vfio_iommu_type1.allow_unsafe_interrupts=1 kvm.ignore_msrs=1 blacklist=nouveau ..."` to GRUB_CMDLINE_LINUX_DEFAULT.
-       3. Update GRUB `update-grub`
+       2. Add ~GRUB_CMDLINE_LINUX_DEFAULT="amd_iommu=on iommu=pt vfio_iommu_type1.allow_unsafe_interrupts=1 kvm.ignore_msrs=1 blacklist=nouveau ..."~ to GRUB_CMDLINE_LINUX_DEFAULT.
+       3. Update GRUB ~update-grub~
 
 **** Hardware
      The physical devices present on my system.
@@ -71,24 +71,24 @@
 ******* Version: 5.12.15
 ******* How to install
 ******** First option
-         1. Install `downgrade` from AUR (using `yay` or other AUR helper)
-         2. `downgrade linux`
+         1. Install ~downgrade~ from AUR (using ~yay~ or other AUR helper)
+         2. ~downgrade linux~
          3. Select 5.12.15
 ******** From Arch archive
-         1. Download package `curl -O https://archive.archlinux.org/packages/l/linux/linux-5.12.15.arch1-1-x86_64.pkg.tar.zst`
-         2. Install with `pacman -U linux-5.12.15.arch1-1-x86_64.pkg.tar.zst`
+         1. Download package ~curl -O https://archive.archlinux.org/packages/l/linux/linux-5.12.15.arch1-1-x86_64.pkg.tar.zst~
+         2. Install with ~pacman -U linux-5.12.15.arch1-1-x86_64.pkg.tar.zst~
 
 ****** linux-headers
        Needed to build kernel modules, particularly the Nvidia driver.
 ******* Version: 5.12.15
 ******* How to install
 ******** First option
-         1. Install `downgrade` from AUR (using `yay` or other AUR helper)
-         2. `downgrade linux-headers`
+         1. Install ~downgrade~ from AUR (using ~yay~ or other AUR helper)
+         2. ~downgrade linux-headers~
          3. Select 5.12.15
 ******** From Arch archive
-         1. Download package `curl -O https://archive.archlinux.org/packages/l/linux-headers/linux-headers-5.12.15.arch1-1-x86_64.pkg.tar.zst`
-         2. Install with `pacman -U linux-headers-5.12.15.arch1-1-x86_64.pkg.tar.zst`
+         1. Download package ~curl -O https://archive.archlinux.org/packages/l/linux-headers/linux-headers-5.12.15.arch1-1-x86_64.pkg.tar.zst~
+         2. Install with ~pacman -U linux-headers-5.12.15.arch1-1-x86_64.pkg.tar.zst~
 
 ****** virt-manager
        Used to create and run virtual machines.
@@ -148,10 +148,10 @@ WantedBy=default.target
 ****** frida
 ******* How to install
 ******** If using conda
-         1. Install `python-pip` using pacman.
-         2. Run `/bin/pip install frida`
+         1. Install ~python-pip~ using pacman.
+         2. Run ~/bin/pip install frida~
 ******** Otherwise
-         1. `pip install frida`
+         1. ~pip install frida~
 
 ***** Graphics setup
 
@@ -168,12 +168,12 @@ WantedBy=default.target
 
 ******* How to install
 ******** Make sure all above [[id:94df3230-029b-42c2-a7bc-db75af7fb82a][arch packages]] and [[id:a7fa4275-7f2e-457b-ab7b-00af5a52de36][python packages]]  are installed.
-******** Download the[[id:52f0c050-0f82-48af-bd19-bd5c613a29b3][components]] using `curl -O the_link`
-******** Make the driver executable. `chmod +x NVIDIA-Linux-x86_64-640.73.01-grid-vgpu-kvm-v5.run`
-******** Extract it. `./NVIDIA-Linux-x86_64-640.73.01-grid-vgpu-kvm-v5.run -x`
-******** `cd NVIDIA-Linux-x86_64-640.73.01-grid-vgpu-kvm-v5`
-******** Apply the 5.12 patch `patch -p0 < ../twelve.patch`
-******** Disable graphics `sudo systemctl isolate multi-user.target`
+******** Download the[[id:52f0c050-0f82-48af-bd19-bd5c613a29b3][components]] using ~curl -O the_link~
+******** Make the driver executable. ~chmod +x NVIDIA-Linux-x86_64-640.73.01-grid-vgpu-kvm-v5.run~
+******** Extract it. ~./NVIDIA-Linux-x86_64-640.73.01-grid-vgpu-kvm-v5.run -x~
+******** ~cd NVIDIA-Linux-x86_64-640.73.01-grid-vgpu-kvm-v5~
+******** Apply the 5.12 patch ~patch -p0 < ../twelve.patch~
+******** Disable graphics ~sudo systemctl isolate multi-user.target~
 ******** Re-login as root and navigate back to the driver directory
          #+BEGIN_SRC bash
 cd /home/user/Downloads/NVIDIA-Linux-x86_64-460.73.01-grid-vgpu-kvm-v5
@@ -227,7 +227,11 @@ ldflags-y += -T /root/vgpu_unlock/kern.ld
 dkms remove -m nvidia -v 460.73.01 --all
 dkms install -m nvidia -v 460.73.01
          #+END_SRC
-******** Make all of vgpu_unlock executable `chmod -R +x vgpu_unlock`
+         
+******** Make all of vgpu_unlock executable 
+
+~chmod -R +x vgpu_unlock~
+
 ******** Reboot
 
 ****** vGPU Profiles
@@ -490,7 +494,7 @@ looking-glass-client
        2. Update driver in =Device Manager->System Devicess->PCI standard RAM Controller= to [[https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/upstream-virtio/virtio-win10-prewhql-0.1-161.zip][virtio PCI RAM controller driver]].
        3. Install [[https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.208-1/virtio-win-guest-tools.exe][virtio guest tools]] and [[https://www.spice-space.org/download/windows/spice-guest-tools/spice-guest-tools-latest.exe][spice guest tools]].
        4. Install [[https://looking-glass.io/ci/host/download?id=stable][looking glass host]] by running =looking-glass-host-setup.exe= as administrator.
-       5. Reboot VM.
+       5. VM.
 
 ***** [[https://storage.googleapis.com/nvidia-drivers-us-public/GRID/GRID12.2/462.31_grid_win10_server2016_server2019_64bit_international.exe][Nvidia GRID driver]]
       :PROPERTIES:
