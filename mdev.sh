@@ -1,5 +1,5 @@
 # nvidia-48 -> GRID P40-3Q
-VGPU_TYPE=nvidia-48
+VGPU_TYPE=nvidia-56
 
 PCI_ADDRESS=$(lspci | grep VGA | grep -Po '\d\w:\d\d.\d')
 
