@@ -70,55 +70,68 @@
       Packages installed using =pacman=.
 
 ****** linux
-       The OS kernel.
-******* Version: 5.12.15
-******* How to install
-******** First option
+
+The OS kernel.
+
+- Version: 5.12.15
+
+******* How to install: First option
          1. Install ~downgrade~ from AUR (using ~yay~ or other AUR helper)
          2. ~downgrade linux~
          3. Select 5.12.15
-******** From Arch archive
+
+******* How to install: From Arch archive
          1. Download package ~curl -O https://archive.archlinux.org/packages/l/linux/linux-5.12.15.arch1-1-x86_64.pkg.tar.zst~
          2. Install with ~pacman -U linux-5.12.15.arch1-1-x86_64.pkg.tar.zst~
 
 ****** linux-headers
+       
        Needed to build kernel modules, particularly the Nvidia driver.
-******* Version: 5.12.15
-******* How to install
-******** First option
+
+- Version: 5.12.15
+
+******* How to install: First option
          1. Install ~downgrade~ from AUR (using ~yay~ or other AUR helper)
          2. ~downgrade linux-headers~
          3. Select 5.12.15
+
 ******** From Arch archive
          1. Download package ~curl -O https://archive.archlinux.org/packages/l/linux-headers/linux-headers-5.12.15.arch1-1-x86_64.pkg.tar.zst~
          2. Install with ~pacman -U linux-headers-5.12.15.arch1-1-x86_64.pkg.tar.zst~
 
 ****** virt-manager
-       Used to create and run virtual machines.
+      
+      Used to create and run virtual machines.
 
 ****** libvirt
 
 ****** kvm
-       (Kernel-based Virtual Machine). A hypervisor. Used for virtualization.
+     
+     (Kernel-based Virtual Machine). A hypervisor. Used for virtualization.
 
 ****** qemu
 
 ****** looking-glass
-       Used to view VM in graphical display.
+     
+     Used to view VM in graphical display.
 
 ****** iptables-nft
-       For networking with the VM.
+      
+      For networking with the VM.
 
 ****** edk2-ovmf
 
 ****** dnsmasq
-       Used for VM networking.
+      
+      Used for VM networking.
 
 ****** mdevctl
-       Used to create vGPU devices
+      
+      Used to create vGPU devices
 
 ****** scream
-       Used to read audio stream from network.
+      
+      Used to read audio stream from network.
 
 ******* How to setup
         1. Install using package manager.
