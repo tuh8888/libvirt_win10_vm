@@ -185,8 +185,8 @@ WantedBy=default.target
 ******* How to install
 ******** Make sure all above [[id:94df3230-029b-42c2-a7bc-db75af7fb82a][arch packages]] and [[id:a7fa4275-7f2e-457b-ab7b-00af5a52de36][python packages]]  are installed.
 ******** Download the[[id:52f0c050-0f82-48af-bd19-bd5c613a29b3][components]] using ~curl -O the_link~
-******** Make the driver executable. ~chmod +x NVIDIA-Linux-x86_64-640.73.01-grid-vgpu-kvm-v5.run~
-******** Extract it. ~./NVIDIA-Linux-x86_64-640.73.01-grid-vgpu-kvm-v5.run -x~
+******** Make the driver executable. ~chmod +x NVIDIA-Linux-x86_64-460.73.01-grid-vgpu-kvm-v5.run~
+******** Extract it. ~./NVIDIA-Linux-x86_64-460.73.01-grid-vgpu-kvm-v5.run -x~
 ******** ~cd NVIDIA-Linux-x86_64-640.73.01-grid-vgpu-kvm-v5~
 ******** Apply the 5.12 patch ~patch -p0 < ../twelve.patch~
 ******** Disable graphics ~sudo systemctl isolate multi-user.target~
