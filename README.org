@@ -39,7 +39,7 @@
        4. Update ~update-initramfs -P~ (use ~mkinitpico -P~ for manjaro)
 
 ***** Boot parameters
-      - amd_iommmu=on
+      - amd_iommu=on
       - iommu=pt
       - vfio_iommu_type1.allow_unsafe_interrupts=1
       - kvm.ignore_msrs=1
